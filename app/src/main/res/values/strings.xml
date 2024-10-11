@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">DicodingEvent</string>
+    <string name="title_home">Home</string>
+    <string name="available_event">Available Event</string>
+    <string name="finished_event">Finished Event</string>
+    <string name="event_name_template">Event Name</string>
+    <string name="date_item_template">Date: October 11, 2024</string>
+    <string name="location_item_template">Location: Jakarta</string>
+    <string name="image_desc">Image Event</string>
+</resources>
