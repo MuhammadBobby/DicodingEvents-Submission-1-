@@ -28,7 +28,7 @@ class AvailableViewModel : ViewModel() {
     private fun loadEvents() {
         _isLoading.value = true
 
-        val apiService = ApiConfig.getApiService().getAvailableEvent()
+        val apiService = ApiConfig.getApiService().getAvailableEvent(active = 1)
         apiService.enqueue(object : Callback<AvailableResponse> {
             override fun onResponse(call: Call<AvailableResponse>, response: Response<AvailableResponse>) {
                 _isLoading.value = false
@@ -45,6 +45,4 @@ class AvailableViewModel : ViewModel() {
             }
         })
     }
-
-
 }
