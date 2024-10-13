@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class AvailableAdapter :
+class AvailableAdapter (private val onItemClick: (Int) -> Unit) :
     ListAdapter<ListEventsItem, AvailableAdapter.EventViewHolder>(DIFF_CALLBACK) {
 
     class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -44,6 +44,11 @@ class AvailableAdapter :
         Glide.with(holder.itemView.context)
             .load(event.imageLogo)
             .into(holder.eventImage)
+
+        //set on click item
+        holder.itemView.setOnClickListener {
+            onItemClick(event.id)
+        }
     }
 
     companion object {

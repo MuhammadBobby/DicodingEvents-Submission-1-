@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.dicodingevent.R
 import com.dicoding.dicodingevent.databinding.FragmentAvailableBinding
 
 class AvailableFragment : Fragment() {
@@ -29,12 +31,21 @@ class AvailableFragment : Fragment() {
         // Initialize ViewModel
         viewModel = ViewModelProvider(this).get(AvailableViewModel::class.java)
 
+        // Inisialisasi adapter dengan listener klik untuk navigasi ke halaman detail
+        adapter = AvailableAdapter { eventId ->
+            val bundle = Bundle().apply {
+                putInt("eventId", eventId)
+            }
+            findNavController().navigate(R.id.action_availableFragment_to_detailFragment, bundle)
+        }
+
+
         // Set up RecyclerView
         setupRecyclerView()
 
         // Observe events from ViewModel
         viewModel.events.observe(viewLifecycleOwner) { events ->
-            adapter.submitList(events) // Update the adapter with new data
+            adapter.submitList(events) // Update adapter with new data
         }
 
         // Observe error messages from ViewModel
@@ -44,26 +55,21 @@ class AvailableFragment : Fragment() {
 
         // Observe loading state from ViewModel
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            showLoading(isLoading) // Show or hide loading based on the LiveData
+            showLoading(isLoading) // Show or hide loading based on LiveData
         }
 
         return root
     }
 
     private fun setupRecyclerView() {
-        adapter = AvailableAdapter()
+        // Set layout manager dan adapter untuk RecyclerView
         binding.rvListAvailable.layoutManager = LinearLayoutManager(context)
         binding.rvListAvailable.adapter = adapter
     }
 
-
-    //    handle loading
+    // Handle loading state
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            binding.progressBar.visibility = View.GONE
-        }
+        binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {
