@@ -1,5 +1,6 @@
 package com.dicoding.dicodingevent.ui.detailEvent
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,7 @@ class DetailViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     _isLoading.value = false
                     val eventDetail = response.body()?.event
+                    Log.d("EventDetailViewModel", "Response body: ${eventDetail}")
                     if (eventDetail != null) {
                         _eventData.value = eventDetail
                     } else {
@@ -41,7 +43,7 @@ class DetailViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<DetailResponse>, t: Throwable) {
-                _errorMessage.value = "Error: ${t.message}"
+                _errorMessage.value = "Error: No Internet Connection"
             }
         })
     }

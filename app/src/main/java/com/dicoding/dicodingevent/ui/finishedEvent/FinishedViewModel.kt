@@ -41,7 +41,7 @@ class FinishedViewModel : ViewModel() {
             }
 
             override fun onFailure(call: Call<AvailableResponse>, t: Throwable) {
-                _errorMessage.value = "Error: ${t.message}"
+                _errorMessage.value = "Error: No Internet Connection"
             }
         })
     }

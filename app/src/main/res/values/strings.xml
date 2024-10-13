@@ -22,4 +22,6 @@
     <string name="dummy_sisa_kuota">100</string>
     <string name="button_text">Register here</string>
     <string name="deskripsi_title">Deskripsi</string>
+    <string name="title_available_home">Available Event</string>
+    <string name="title_finished_home">Finished Event</string>
 </resources>
