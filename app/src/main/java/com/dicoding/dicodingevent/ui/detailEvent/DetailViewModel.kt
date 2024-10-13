@@ -3,7 +3,6 @@ package com.dicoding.dicodingevent.ui.detailEvent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dicoding.dicodingevent.services.response.AvailableResponse
 import com.dicoding.dicodingevent.services.response.DetailResponse
 import com.dicoding.dicodingevent.services.response.EventDetail
 import com.dicoding.dicodingevent.services.retrofit.ApiConfig

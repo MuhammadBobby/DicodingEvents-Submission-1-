@@ -4,15 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.dicoding.dicodingevent.databinding.FragmentAvailableBinding
+import com.dicoding.dicodingevent.R
 import com.dicoding.dicodingevent.databinding.FragmentFinishedBinding
-import com.dicoding.dicodingevent.ui.availableEvent.AvailableAdapter
-import com.dicoding.dicodingevent.ui.availableEvent.AvailableViewModel
 
 class FinishedFragment : Fragment() {
 
@@ -31,7 +29,15 @@ class FinishedFragment : Fragment() {
         val root: View = binding.root
 
         // Initialize ViewModel
-        viewModel = ViewModelProvider(this).get(FinishedViewModel::class.java)
+        viewModel = ViewModelProvider(this)[FinishedViewModel::class.java]
+
+        // Inisialisasi adapter dengan listener klik untuk navigasi ke halaman detail
+        adapter = FinishedAdapter { eventId ->
+            val bundle = Bundle().apply {
+                putInt("eventId", eventId)
+            }
+            findNavController().navigate(R.id.action_navigation_finished_event_to_detailFragment, bundle)
+        }
 
         // Set up RecyclerView
         setupRecyclerView()
@@ -55,7 +61,6 @@ class FinishedFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = FinishedAdapter()
         binding.rvListFinished.layoutManager = LinearLayoutManager(context)
         binding.rvListFinished.adapter = adapter
     }

@@ -29,7 +29,7 @@ class AvailableFragment : Fragment() {
         val root: View = binding.root
 
         // Initialize ViewModel
-        viewModel = ViewModelProvider(this).get(AvailableViewModel::class.java)
+        viewModel = ViewModelProvider(this)[AvailableViewModel::class.java]
 
         // Inisialisasi adapter dengan listener klik untuk navigasi ke halaman detail
         adapter = AvailableAdapter { eventId ->

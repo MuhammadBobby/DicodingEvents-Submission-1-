@@ -7,17 +7,16 @@ import android.os.Bundle
 import android.text.Html
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.dicoding.dicodingevent.R
-import com.dicoding.dicodingevent.databinding.FragmentAvailableBinding
 import com.dicoding.dicodingevent.databinding.FragmentDetailBinding
-import com.dicoding.dicodingevent.ui.availableEvent.AvailableViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -31,6 +30,11 @@ class DetailFragment : Fragment() {
 
     private lateinit var viewModel: DetailViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true) //set button back
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +43,7 @@ class DetailFragment : Fragment() {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
 
         // Initialize ViewModel
-        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
+        viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
 
         // Observe error messages from ViewModel
         viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
@@ -118,6 +122,18 @@ class DetailFragment : Fragment() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressBarDetail.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                findNavController().navigateUp() // Navigasi kembali menggunakan NavController
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
