@@ -21,11 +21,7 @@ class FinishedViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    init {
-        loadEvents()
-    }
-
-    private fun loadEvents() {
+    fun loadEvents() {
         _isLoading.value = true
 
         val apiService = ApiConfig.getApiService().getAvailableEvent(active = 0)
@@ -43,6 +39,31 @@ class FinishedViewModel : ViewModel() {
             override fun onFailure(call: Call<AvailableResponse>, t: Throwable) {
                 _errorMessage.value = "Error: No Internet Connection"
             }
+        })
+    }
+
+    fun searchEvents(query: String) {
+        _isLoading.value = true
+
+        val apiService = ApiConfig.getApiService().getSearchEvent(active = -1, q = query)
+        apiService.enqueue(object : Callback<AvailableResponse> {
+            override fun onResponse(
+                call: Call<AvailableResponse>,
+                response: Response<AvailableResponse>
+            ) {
+                _isLoading.value = false
+                if (response.isSuccessful) {
+                    val events = response.body()?.listEvents ?: emptyList()
+                    _events.value = events // Set the data to LiveData
+                } else {
+                    _errorMessage.value = "Failed to load events"
+                }
+            }
+
+            override fun onFailure(call: Call<AvailableResponse>, t: Throwable) {
+                _errorMessage.value = "Error: No Internet Connection"
+            }
+
         })
     }
 }

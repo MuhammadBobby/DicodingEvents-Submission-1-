@@ -1,7 +1,6 @@
 [versions]
-agp = "8.5.1"
+agp = "8.5.2"
 glide = "4.16.0"
-imageslideshow = "0.0.6"
 imageslideshowVersion = "0.1.2"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"

@@ -26,7 +26,11 @@ class FinishedFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentFinishedBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Initialize ViewModel
         viewModel = ViewModelProvider(this)[FinishedViewModel::class.java]
@@ -41,6 +45,9 @@ class FinishedFragment : Fragment() {
 
         // Set up RecyclerView
         setupRecyclerView()
+
+        // Memanggil loadEvents() saat fragment pertama kali dibuat
+        viewModel.loadEvents()
 
         // Observe events from ViewModel
         viewModel.events.observe(viewLifecycleOwner) { events ->
@@ -57,7 +64,23 @@ class FinishedFragment : Fragment() {
             showLoading(isLoading) // Show or hide loading based on the LiveData
         }
 
-        return root
+        // Tambahkan listener pada SearchView
+        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false // Tidak perlu melakukan apa-apa saat submit
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) {
+                    // Jika query kosong, tampilkan semua data
+                    viewModel.loadEvents()
+                } else {
+                    // Panggil fungsi searchEvents di ViewModel
+                    viewModel.searchEvents(newText)
+                }
+                return true
+            }
+        })
     }
 
     private fun setupRecyclerView() {
@@ -65,8 +88,7 @@ class FinishedFragment : Fragment() {
         binding.rvListFinished.adapter = adapter
     }
 
-
-    //    handle loading
+    // Handle loading
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBarFinished.visibility = View.VISIBLE
@@ -75,9 +97,9 @@ class FinishedFragment : Fragment() {
         }
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+

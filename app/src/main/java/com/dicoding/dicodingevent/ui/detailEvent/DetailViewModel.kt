@@ -30,7 +30,6 @@ class DetailViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     _isLoading.value = false
                     val eventDetail = response.body()?.event
-                    Log.d("EventDetailViewModel", "Response body: ${eventDetail}")
                     if (eventDetail != null) {
                         _eventData.value = eventDetail
                     } else {
