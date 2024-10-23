@@ -40,6 +40,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_favorite_event"
+        android:name="com.dicoding.dicodingevent.ui.favoriteEvent.FavoriteEventFragment"
+        android:label="@string/favorite_event"
+        tools:layout="@layout/fragment_favorite_event" />
+
+    <fragment
         android:id="@+id/detailFragment"
         android:name="com.dicoding.dicodingevent.ui.detailEvent.DetailFragment"
         android:label="Detail Event"
