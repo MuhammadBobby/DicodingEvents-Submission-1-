@@ -24,6 +24,6 @@ interface FavoriteEventsDao {
 
     //detail -> select data by id from database
     @Query("SELECT * FROM favoriteevents WHERE id = :id")
-    fun getFavoriteEventById(id: String): LiveData<FavoriteEvents>
+    fun getFavoriteEventById(id: Int): LiveData<FavoriteEvents>
 
 }

@@ -1,5 +1,6 @@
 package com.dicoding.dicodingevent.ui.detailEvent
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

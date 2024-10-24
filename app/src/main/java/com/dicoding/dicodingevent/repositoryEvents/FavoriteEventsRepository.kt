@@ -23,7 +23,7 @@ class FavoriteEventsRepository(application: Application) {
     fun getAllFavoriteEvents() : LiveData<List<FavoriteEvents>> = favoriteEventsDao.getAllFavoriteEvents()
 
     //get favorite event by id
-    fun getFavoriteEventById(id: String) : LiveData<FavoriteEvents> = favoriteEventsDao.getFavoriteEventById(id)
+    fun getFavoriteEventById(id: Int) : LiveData<FavoriteEvents> = favoriteEventsDao.getFavoriteEventById(id)
 
     //insert favorite event
     fun insertEventFavorite(event: FavoriteEvents) {

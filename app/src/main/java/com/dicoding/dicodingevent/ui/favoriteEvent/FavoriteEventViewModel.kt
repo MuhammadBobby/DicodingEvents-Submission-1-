@@ -14,7 +14,7 @@ class FavoriteEventViewModel(application: Application) : ViewModel() {
     fun getAllFavoriteEvents(): LiveData<List<FavoriteEvents>> = favoriteEventsRepository.getAllFavoriteEvents()
 
     //get favorite event by id
-    fun getFavoriteEventById(id: String): LiveData<FavoriteEvents> = favoriteEventsRepository.getFavoriteEventById(id)
+    fun getFavoriteEventById(id: Int): LiveData<FavoriteEvents> = favoriteEventsRepository.getFavoriteEventById(id)
 
     //insert favorite event
     fun insertEventFavorite(event: FavoriteEvents) {

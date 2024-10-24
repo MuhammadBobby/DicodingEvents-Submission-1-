@@ -13,7 +13,7 @@ data class FavoriteEvents (
 
     //id dari event yang dipilih
     @ColumnInfo(name = "id")
-    var id: String = "",
+    var id: Int = 0,
 
     //nama dari event yang dipilih
     @ColumnInfo(name = "name")
