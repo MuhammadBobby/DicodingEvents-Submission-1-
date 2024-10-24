@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.dicoding.dicodingevent.FavoriteEventViewModelFactory
+import com.dicoding.dicodingevent.FavoriteViewModelFactory
 import com.dicoding.dicodingevent.R
 import com.dicoding.dicodingevent.database.FavoriteEvents
 import com.dicoding.dicodingevent.databinding.FragmentDetailBinding
@@ -40,7 +40,7 @@ class DetailFragment : Fragment() {
         setHasOptionsMenu(true) //set button back
 
         //initialization viewmodel favorite
-        favoriteViewModel = ViewModelProvider(this, FavoriteEventViewModelFactory(requireActivity().application))[FavoriteEventViewModel::class.java]
+        favoriteViewModel = ViewModelProvider(this, FavoriteViewModelFactory(requireActivity().application))[FavoriteEventViewModel::class.java]
     }
 
 
@@ -61,21 +61,6 @@ class DetailFragment : Fragment() {
         // Observe loading state from ViewModel
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             showLoading(isLoading) // Show or hide loading based on LiveData
-        }
-
-        // Check if this event is already favorited
-        eventId?.let {
-            favoriteViewModel.getFavoriteEventById(it).observe(viewLifecycleOwner) { favoriteEvent ->
-                if (favoriteEvent != null) {
-                    // If favorite exists, update UI to show it's favorited
-                    binding.buttonFavorite.setImageResource(R.drawable.favorite_marked)
-                    binding.buttonFavorite.tag = "Saved"
-                } else {
-                    // If not, show the non-favorited state
-                    binding.buttonFavorite.setImageResource(R.drawable.favorite_mark)
-                    binding.buttonFavorite.tag = "Not Saved"
-                }
-            }
         }
 
         // Inflate the layout for this fragment

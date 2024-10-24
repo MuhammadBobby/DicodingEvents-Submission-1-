@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dicoding.dicodingevent.ui.favoriteEvent.FavoriteEventViewModel
 
 @Suppress("UNCHECKED_CAST")
-class FavoriteEventViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
+class FavoriteViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FavoriteEventViewModel::class.java)) {
             return FavoriteEventViewModel(application) as T

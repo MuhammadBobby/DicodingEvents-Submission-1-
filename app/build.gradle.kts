@@ -66,4 +66,8 @@ dependencies {
     //image slider
     implementation (libs.imageslideshow)
 
+    //datastore
+    implementation(libs.datastore.preferences)
+    implementation(libs.kotlinx.coroutines.core.v152)
+    implementation(libs.kotlinx.coroutines.android)
 }

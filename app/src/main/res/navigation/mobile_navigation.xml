@@ -54,6 +54,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_settings_event"
+        android:name="com.dicoding.dicodingevent.ui.settings.DarkModeSettingFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_dark_mode_setting" />
+
+    <fragment
         android:id="@+id/detailFragment"
         android:name="com.dicoding.dicodingevent.ui.detailEvent.DetailFragment"
         android:label="Detail Event"
