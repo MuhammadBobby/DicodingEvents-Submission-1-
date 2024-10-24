@@ -17,7 +17,7 @@ import java.util.Locale
 // Gunakan RecyclerView.Adapter biasa
 class FavoriteEventAdapter(
     private var events: List<FavoriteEvents>,  // Daftar event menggunakan Parcelable
-    private val onItemClick: (FavoriteEvents) -> Unit     // Callback ketika item diklik
+    private val onItemClick: (Int) -> Unit     // Callback ketika item diklik
 ) : RecyclerView.Adapter<FavoriteEventAdapter.EventViewHolderFav>() {
 
     class EventViewHolderFav(view: View) : RecyclerView.ViewHolder(view) {
@@ -48,7 +48,7 @@ class FavoriteEventAdapter(
 
         // Set on click item
         holder.itemView.setOnClickListener {
-            onItemClick(event)
+            onItemClick(event.id)
         }
     }
 

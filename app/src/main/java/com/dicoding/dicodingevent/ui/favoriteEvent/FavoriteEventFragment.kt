@@ -36,11 +36,11 @@ class FavoriteEventFragment : Fragment() {
         viewModel = ViewModelProvider(this, FavoriteEventViewModelFactory(requireActivity().application))[FavoriteEventViewModel::class.java]
 
         //init adapter
-        adapter = FavoriteEventAdapter(emptyList()) { favoriteEvent ->
+        adapter = FavoriteEventAdapter(emptyList()) { eventId ->
             val bundle = Bundle().apply {
-                putParcelable("favoriteEvent", favoriteEvent) // Kirim objek Parcelable
+                putInt("eventId", eventId) // Kirim objek Parcelable
             }
-            findNavController().navigate(R.id.action_availableFragment_to_detailFragment, bundle)
+            findNavController().navigate(R.id.action_favoriteEventFragment_to_detailFragment, bundle)
         }
 
 
@@ -49,8 +49,16 @@ class FavoriteEventFragment : Fragment() {
 
         //observe favorite events
         viewModel.getAllFavoriteEvents().observe(viewLifecycleOwner) { favoriteEvents ->
-            // Panggil setFavoriteEvents() untuk memperbarui data di adapter
-            adapter.setFavoriteEvents(favoriteEvents)
+            if (favoriteEvents.isNullOrEmpty()) {
+                binding.tvNoFavorite.visibility = View.VISIBLE
+                binding.rvListFavoriteEvents.visibility = View.GONE
+            } else {
+                binding.tvNoFavorite.visibility = View.GONE
+                binding.rvListFavoriteEvents.visibility = View.VISIBLE
+                // Panggil setFavoriteEvents() untuk memperbarui data di adapter
+                adapter.setFavoriteEvents(favoriteEvents)
+            }
+
         }
 
 
