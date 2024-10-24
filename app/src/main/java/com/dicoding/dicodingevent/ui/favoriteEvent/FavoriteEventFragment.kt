@@ -5,56 +5,70 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.dicodingevent.FavoriteEventViewModelFactory
 import com.dicoding.dicodingevent.R
+import com.dicoding.dicodingevent.databinding.FragmentAvailableBinding
+import com.dicoding.dicodingevent.databinding.FragmentFavoriteEventBinding
+import com.dicoding.dicodingevent.ui.availableEvent.AvailableAdapter
+import com.dicoding.dicodingevent.ui.availableEvent.AvailableViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FavoriteEventFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FavoriteEventFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentFavoriteEventBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var adapter: FavoriteEventAdapter
+    private lateinit var viewModel: FavoriteEventViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_event, container, false)
+        //binding init
+        _binding = FragmentFavoriteEventBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        //init view model
+        viewModel = ViewModelProvider(this, FavoriteEventViewModelFactory(requireActivity().application))[FavoriteEventViewModel::class.java]
+
+        //init adapter
+        adapter = FavoriteEventAdapter(emptyList()) { favoriteEvent ->
+            val bundle = Bundle().apply {
+                putParcelable("favoriteEvent", favoriteEvent) // Kirim objek Parcelable
+            }
+            findNavController().navigate(R.id.action_availableFragment_to_detailFragment, bundle)
+        }
+
+
+        //setup recyclerview
+        setupRecyclerView()
+
+        //observe favorite events
+        viewModel.getAllFavoriteEvents().observe(viewLifecycleOwner) { favoriteEvents ->
+            // Panggil setFavoriteEvents() untuk memperbarui data di adapter
+            adapter.setFavoriteEvents(favoriteEvents)
+        }
+
+
+        return root
+    }
+
+    private fun setupRecyclerView() {
+        // Set layout manager dan adapter untuk RecyclerView
+        binding.rvListFavoriteEvents.layoutManager = LinearLayoutManager(context)
+        binding.rvListFavoriteEvents.adapter = adapter
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FavoriteEventFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavoriteEventFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
