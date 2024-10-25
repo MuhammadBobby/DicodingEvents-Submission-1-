@@ -9,7 +9,6 @@ import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.dicodingevent.DarkModeViewModelFactory
-import com.dicoding.dicodingevent.FavoriteViewModelFactory
 import com.dicoding.dicodingevent.databinding.FragmentDarkModeSettingBinding
 
 
@@ -31,8 +30,7 @@ class DarkModeSettingFragment : Fragment() {
         val preferences = DarkModePreferences.getInstance(requireContext().dataStore)
 
         //init view model
-        val darkModeViewModel = ViewModelProvider(this, DarkModeViewModelFactory(preferences)).get(
-            DarkModeViewModel::class.java)
+        val darkModeViewModel = ViewModelProvider(this, DarkModeViewModelFactory(preferences))[DarkModeViewModel::class.java]
 
         //observe data for Dark Mode
         observeDarkMode(darkModeViewModel)

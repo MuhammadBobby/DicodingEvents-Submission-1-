@@ -4,13 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dicoding.dicodingevent.services.response.AvailableResponse
 import com.dicoding.dicodingevent.services.response.ListEventsItem
 import com.dicoding.dicodingevent.services.retrofit.ApiConfig
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
 
 class AvailableViewModel : ViewModel() {
 

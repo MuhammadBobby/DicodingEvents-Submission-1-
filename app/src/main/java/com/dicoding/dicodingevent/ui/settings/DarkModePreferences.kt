@@ -14,17 +14,17 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "se
 
 class DarkModePreferences private constructor(private val dataStore: DataStore<Preferences>) {
     //setting datastore
-    private val DARK_MODE_KEY = booleanPreferencesKey("dark_mode_setting")
+    private val darkModeKey = booleanPreferencesKey("dark_mode_setting")
 
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
-            preferences[DARK_MODE_KEY] ?: false
+            preferences[darkModeKey] ?: false
         }
     }
 
     //menyimpan ke dalam datastore
     suspend fun saveThemeSetting(isDarkModeActive: Boolean) {
-        dataStore.edit { preferences -> preferences[DARK_MODE_KEY] = isDarkModeActive }
+        dataStore.edit { preferences -> preferences[darkModeKey] = isDarkModeActive }
     }
 
     //instance setting preferences

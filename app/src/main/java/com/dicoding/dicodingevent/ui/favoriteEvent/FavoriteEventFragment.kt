@@ -68,10 +68,6 @@ class FavoriteEventFragment : Fragment() {
         binding.rvListFavoriteEvents.adapter = adapter
     }
 
-    companion object {
-
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
