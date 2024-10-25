@@ -3,12 +3,12 @@ package com.dicoding.dicodingevent.ui.finishedEvent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dicoding.dicodingevent.services.response.AvailableResponse
+import androidx.lifecycle.viewModelScope
 import com.dicoding.dicodingevent.services.response.ListEventsItem
 import com.dicoding.dicodingevent.services.retrofit.ApiConfig
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FinishedViewModel : ViewModel() {
 
@@ -24,46 +24,46 @@ class FinishedViewModel : ViewModel() {
     fun loadEvents() {
         _isLoading.value = true
 
-        val apiService = ApiConfig.getApiService().getAvailableEvent(active = 0)
-        apiService.enqueue(object : Callback<AvailableResponse> {
-            override fun onResponse(call: Call<AvailableResponse>, response: Response<AvailableResponse>) {
-                _isLoading.value = false
+        viewModelScope.launch {
+            try {
+                // Memanggil API di IO thread (background) untuk performa lebih baik
+                val response = withContext(Dispatchers.IO) {
+                    ApiConfig.getApiService().getAvailableEvent(active = 0)
+                }
+
+                // Check response dan update live data di main thread
                 if (response.isSuccessful) {
-                    val events = response.body()?.listEvents ?: emptyList()
-                    _events.value = events // Set the data to LiveData
+                    _events.value = response.body()?.listEvents ?: emptyList()
                 } else {
                     _errorMessage.value = "Failed to load events"
                 }
+            } catch (e: Exception) {
+                _errorMessage.value = "Error: ${e.message}"
+            } finally {
+                _isLoading.value = false
             }
-
-            override fun onFailure(call: Call<AvailableResponse>, t: Throwable) {
-                _errorMessage.value = "Error: No Internet Connection"
-            }
-        })
+        }
     }
 
     fun searchEvents(query: String) {
         _isLoading.value = true
 
-        val apiService = ApiConfig.getApiService().getSearchEvent(active = -1, q = query)
-        apiService.enqueue(object : Callback<AvailableResponse> {
-            override fun onResponse(
-                call: Call<AvailableResponse>,
-                response: Response<AvailableResponse>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful) {
-                    val events = response.body()?.listEvents ?: emptyList()
-                    _events.value = events // Set the data to LiveData
-                } else {
-                    _errorMessage.value = "Failed to load events"
+        viewModelScope.launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    ApiConfig.getApiService().getSearchEvent(active = -1, q = query)
                 }
-            }
 
-            override fun onFailure(call: Call<AvailableResponse>, t: Throwable) {
-                _errorMessage.value = "Error: No Internet Connection"
+                if (response.isSuccessful) {
+                    _events.value = response.body()?.listEvents ?: emptyList()
+                } else {
+                    _errorMessage.value = "Failed to search events"
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Error: ${e.message}"
+            } finally {
+                _isLoading.value = false
             }
-
-        })
+        }
     }
 }

@@ -2,6 +2,8 @@
 agp = "8.5.2"
 datastorePreferencesVersion = "1.0.0"
 glide = "4.16.0"
+hiltAndroidGradlePlugin = "2.48"
+hiltCompiler = "2.44"
 imageslideshowVersion = "0.1.2"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -28,6 +30,9 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesVersion" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidGradlePlugin" }
+hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroidGradlePlugin" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltCompiler" }
 imageslideshow = { module = "com.github.denzcoskun:ImageSlideshow", version.ref = "imageslideshowVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

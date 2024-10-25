@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.ksp)
     id("kotlin-parcelize")
+    id("kotlin-kapt") //hilt
+    id("dagger.hilt.android.plugin") //hilt
 }
 
 android {
@@ -70,4 +72,8 @@ dependencies {
     implementation(libs.datastore.preferences)
     implementation(libs.kotlinx.coroutines.core.v152)
     implementation(libs.kotlinx.coroutines.android)
+
+    //hilt fot dependencies injection
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 }

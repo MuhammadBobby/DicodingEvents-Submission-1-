@@ -2,26 +2,27 @@ package com.dicoding.dicodingevent.services.retrofit
 
 import com.dicoding.dicodingevent.services.response.AvailableResponse
 import com.dicoding.dicodingevent.services.response.DetailResponse
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
+    // Menggunakan Response untuk coroutine
     @GET("events")
-    fun getAvailableEvent(
+    suspend fun getAvailableEvent(
         @Query("active") active: Int
-    ): Call<AvailableResponse>
+    ): Response<AvailableResponse>
 
     @GET("events/{id}")
-    fun getDetailEvent(
+    suspend fun getDetailEvent(
         @Path("id") id: Int
-    ): Call<DetailResponse>
+    ): Response<DetailResponse>
 
-    //search
+    // Search event dengan suspend function
     @GET("events")
-    fun getSearchEvent(
+    suspend fun getSearchEvent(
         @Query("active") active: Int = -1,
         @Query("q") q: String? = null
-    ): Call<AvailableResponse>
+    ): Response<AvailableResponse>
 }
