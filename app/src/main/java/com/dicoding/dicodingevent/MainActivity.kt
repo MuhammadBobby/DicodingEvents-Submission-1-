@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //ambil dark mode
+        //get dark mode
         darkModeData()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -43,14 +43,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun darkModeData() {
-        // Mengambil preferences
+        // get preferences
         val preferences = DarkModePreferences.getInstance(dataStore)
 
-        // Inisialisasi ViewModel
-        darkModeViewModel = ViewModelProvider(this, DarkModeViewModelFactory(preferences)).get(
-            DarkModeViewModel::class.java)
+        // init ViewModel
+        darkModeViewModel = ViewModelProvider(this, DarkModeViewModelFactory(preferences))[DarkModeViewModel::class.java]
 
-        // Observe data untuk Dark Mode
+        // Observe data for Dark Mode
         darkModeViewModel.getDarkModeSetting().observe(this) { isDarkModeActive ->
             if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

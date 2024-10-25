@@ -3,27 +3,31 @@ package com.dicoding.dicodingevent.ui.favoriteEvent
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dicoding.dicodingevent.database.FavoriteEvents
 import com.dicoding.dicodingevent.repositoryEvents.FavoriteEventsRepository
+import kotlinx.coroutines.launch
 
 class FavoriteEventViewModel(application: Application) : ViewModel() {
-    //initialization repository
     private val favoriteEventsRepository: FavoriteEventsRepository = FavoriteEventsRepository(application)
 
-    //get all favorite events
+    // Get all favorite events
     fun getAllFavoriteEvents(): LiveData<List<FavoriteEvents>> = favoriteEventsRepository.getAllFavoriteEvents()
 
-    //get favorite event by id
+    // Get favorite event by ID
     fun getFavoriteEventById(id: Int): LiveData<FavoriteEvents> = favoriteEventsRepository.getFavoriteEventById(id)
 
-    //insert favorite event
+    // Insert favorite event using coroutine
     fun insertEventFavorite(event: FavoriteEvents) {
-        favoriteEventsRepository.insertEventFavorite(event)
+        viewModelScope.launch {
+            favoriteEventsRepository.insertEventFavorite(event)
+        }
     }
 
-    //delete favorite event
+    // Delete favorite event using coroutine
     fun deleteEventFavorite(favoriteEvent: FavoriteEvents) {
-        favoriteEventsRepository.deleteEventFavorite(favoriteEvent)
+        viewModelScope.launch {
+            favoriteEventsRepository.deleteEventFavorite(favoriteEvent)
+        }
     }
-
 }
